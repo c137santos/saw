@@ -1,10 +1,9 @@
 <template>
   <table>
-    <td v-for="(line, r) in grid" :key="JSON.stringify([line, r])">
-      <tr v-for="(coluna, c) in line" :key="JSON.stringify([r, c, coluna])">
-        <p :style="pintacommeupinto(coluna)">&nbsp;</p>
-      </tr>
-    </td>
+    <tr v-for="(line, r) in grid" :key="`${line}-${r}`">
+      <td v-for="(coluna, c) in line" :key="`${r}-${c}-${coluna}`" :class="classes(r, c)">
+      </td>
+    </tr>
   </table>
 </template>
 
@@ -23,30 +22,43 @@
     },
     methods:{
       update(){
-        for(var i = 0; i < this.grid.length; i++) {
-            var cube = this.grid[i];
-            for(var j = 0; j < cube.length; j++) {
+        for(let i = 0; i < this.grid.length; i++) {
+            let cube = this.grid[i];
+            for(let j = 0; j < cube.length; j++) {
                 this.grid[i][j] = Math.random() > 0.5 ? 1 : 0
             }
         }
         this.grid.push([])
         this.grid.pop()
       },
-      pintacommeupinto(coluna){
-        if(coluna === 1){
-          return 'background-color:black'
+      classes(linha, coluna){
+        console.log(this.grid[linha][coluna])
+        return {
+          "pintado": this.grid[linha][coluna]
         }
-        return 'background-color:white'
       }
     },
     created(){
       const acabate = ()=> {
         this.update()
         this.count++
-        console.log("aaaa")
+        // console.log("aaaa")
         setTimeout(acabate, 500)
       }
       acabate()
     }
   }
 </script>
+
+<style scoped>
+table td {
+  border: 1px solid #eee;
+  width: 30px;
+  height: 30px;
+  background-color: white;
+}
+.pintado {
+  background-color: black;
+}
+
+</style>
