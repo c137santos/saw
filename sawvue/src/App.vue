@@ -1,22 +1,34 @@
 <template>
-  <table>
-    <tr v-for="(line, r) in grid" :key="`${line}-${r}`">
-      <td
+  <div>
+    <topNavBat></topNavBat>
+    <div class="tabelinha">
+    <table>
+      <tr v-for="(line, r) in grid" :key="`${line}-${r}`">
+        <td
         v-for="(coluna, c) in line"
         :key="`${r}-${c}-${coluna}`"
         :class="classes(r, c)"
-      ></td>
-    </tr>
-  </table>
+        ></td>
+      </tr>
+    </table>
+    </div>
+    <footerBar></footerBar>
+  </div>
 </template>
 
 <script>
 import { formaGrid } from '../life.js';
+import topNavBat from './components/topNavBat.vue';
+import footerBar from './components/footerBar.vue'
 
 const lines = 20
 const columns = 20
 
 export default {
+  components: {
+    topNavBat,
+    footerBar
+  },
   data() {
     return {
       grid: formaGrid(lines, columns),
@@ -80,6 +92,7 @@ export default {
 </script>
 
 <style scoped>
+
 table td {
   border: 1px solid #eee;
   width: 30px;
@@ -88,5 +101,11 @@ table td {
 }
 .pintado {
   background-color: black;
+}
+.tabelinha{
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  margin: 10%;
 }
 </style>
