@@ -68,7 +68,7 @@ class Game():
 #     grid= Game(matriz_size, matriz_size, alives)
 #     grid.play_game()
 
-grid = Game(10, 10, 20)
+grid = Game(50, 50, 40)
 
 while True:
     print(grid)
