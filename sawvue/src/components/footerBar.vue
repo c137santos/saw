@@ -1,6 +1,6 @@
 <template>
-  <v-footer dark padless>
-    <v-card flat tile class="indigo lighten-1 white--text text-center">
+  <v-footer dark padless >
+    <v-card flat tile class="indigo lighten-1 white--text text-center" id="footerzinho">
       <v-card-text class="white--text pt-0">
         Game of Life foi desenvolvido por John Conway em 1970, concretizou a descrição da máquina de Turing Universal(máquina capaz de construir cópias de si) com regras
         simples . 
@@ -35,4 +35,10 @@ export default {
 a {
   color:white
 }
+#footerzinho{
+  flex-direction: column;
+  display: flex;
+  width: 100%;
+}
+
 </style>
