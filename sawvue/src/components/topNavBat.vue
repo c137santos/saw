@@ -1,15 +1,23 @@
 <template>
-  <div>
-    <v-toolbar
-      dark
-      prominent
-      src="http://store-images.s-microsoft.com/image/apps.16690.14042108845631085.fe324a66-ebff-451d-a9b0-a01edcc8000a.0ca6e496-af8c-410c-a35e-54d200953657"
-    >
-
-      <v-toolbar-title>Game of Life</v-toolbar-title>
-
-      <v-spacer></v-spacer>
-
-    </v-toolbar>
+  <div class="centralizadora">
+    <h1>Game of Life</h1>
   </div>
 </template>
+
+<style>
+.centralizadora{
+  display: flex;
+  flex-direction: row;
+  padding: 2%;
+  background-color: #1e1e1e;
+  background-image: url("../static/sky.jpg"); 
+  background-size: cover; 
+}
+
+h1{
+  align-items: center;
+  color: white;
+  width: 100%;
+  text-align: center;
+}
+</style>

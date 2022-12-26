@@ -1,54 +1,41 @@
 <template>
-  <table>
-    <tr v-for="(line, r) in grid" :key="`${line}-${r}`">
-      <td
-        v-for="(coluna, c) in line"
-        :key="`${r}-${c}-${coluna}`"
-        :class="classes(r, c)"
-      ></td>
-    </tr>
-  </table>
+  <div class="tabelinha">
+    <table>
+      <tr v-for="(line, r) in grid" :key="`${line}-${r}`">
+        <td
+          v-for="(coluna, c) in line"
+          :key="`${r}-${c}-${coluna}`"
+          :class="classes(r, c)"
+        ></td>
+      </tr>
+    </table>
+  </div>
 </template>
 
 <script>
-
-import grid from './life.js';
+// import { formaGrid } from '../life.js';
 
 export default {
   data() {
     return {
-      grid: [
-        [0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0],
-        [0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0],
-        [0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0],
-        [0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0],
-        [0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0],
-        [0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0],
-        [0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0],
-        [0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0],
-        [0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0],
-        [0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0],
-        [0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0],
-        [0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0],
-        [0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0],
-        [0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0],
-        [0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0],
-      ],
-      lines: 15,
-      columns: 15,
+      lines: '',
+      columns: '',
+      grid: [],
     };
   },
   methods: {
     update() {
       let new_matriz = JSON.parse(JSON.stringify(this.grid))
+
       for (let i = 0; i < this.lines; i++) {
         for (let j = 0; j < this.columns; j++) {
-          let alives = this.vizinhos(i, j);
-          if (this.grid[i][j] === 1) {
+          let alives = this.vizinhos(this.grid, i, j);
+          
+          if (this.grid[i][j] === 1) { // vivo
             if (alives < 2 || alives > 3) {
               new_matriz[i][j] = 0
             }
-          } else {
+          } else { // morto
             if (alives === 3) {
               new_matriz[i][j] = 1
             }
@@ -59,26 +46,23 @@ export default {
       this.grid = new_matriz;
       return new_matriz
     },
-    vizinhos(x, y) {
-      let somatorio = 0;
+    vizinhos(grid, x, y) {
+      let vivos = 0;
       for (let linha_x of [-1, 0, 1]) {
         for (let coluna_y of [-1, 0, 1]) {
+          if (linha_x == 0 && coluna_y == 0) continue
+
           const vizinho_x = x + linha_x;
           const vizinho_y = y + coluna_y;
-          if (
-            vizinho_x < 0 ||
-            vizinho_y < 0 ||
-            vizinho_x >= this.grid.length ||
-            vizinho_y >= this.grid[0].length) continue
-          if (vizinho_x == x && vizinho_y == y) continue
-          somatorio += this.grid[vizinho_x][vizinho_y]
+
+          if (grid[vizinho_x]?.[vizinho_y]) {
+            vivos += 1
+          }
         }
       }
-      console.log(`${x} ${y} esse é o somatório ${somatorio}`);
-      return somatorio;
+      return vivos;
     },
     classes(linha, coluna) {
-      console.log(this.grid[linha][coluna]);
       return {
         pintado: this.grid[linha][coluna],
       };
@@ -91,13 +75,11 @@ export default {
     };
     acabate();
   },
-  mounted() {
-    grid(10,10)
-  }
 };
 </script>
 
 <style scoped>
+
 table td {
   border: 1px solid #eee;
   width: 30px;
@@ -107,4 +89,11 @@ table td {
 .pintado {
   background-color: black;
 }
+.tabelinha{
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  margin: 10%;
+}
+
 </style>
