@@ -101,6 +101,7 @@ export default {
     reiniciaJogo(){
       this.grid = []
       this.gameOver = false
+      this.geracoes = 0
     },
     playGame(){
       let loopAtualizacao = () => {
