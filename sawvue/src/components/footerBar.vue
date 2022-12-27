@@ -35,13 +35,12 @@ export default {
 a {
   color:white
 }
+
 #footerzinho{
-  margin-top: 5%;
   flex-direction: column;
   display: flex;
   width: 100%;
-  position: fixed;
-  bottom: 0;
+  display: fixed;
 }
 
 </style>

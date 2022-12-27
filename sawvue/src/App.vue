@@ -4,12 +4,17 @@
     <div class="divdoinput">
       <div class="centralizador">
         <p>Informe o tamanho da sua matriz - 1 a 99</p>
-        <input type="number" v-model="numeroMatriz"  pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==2) return false;" />
+        <input
+          type="number"
+          v-model="numeroMatriz"
+          pattern="/^-?\d+\.?\d*$/"
+          onKeyPress="if(this.value.length==2) return false;"
+        />
         <div class="dosbotoes">
           <button @click.prevent="playGame">PLAY!!</button>
           <button @click="reiniciaJogo">Reiniciar!!</button>
-        </div> 
-      </div>  
+        </div>
+      </div>
     </div>
     <div class="tabelinha">
       <table>
@@ -41,14 +46,17 @@ export default {
     return {
       grid: [],
       numeroMatriz:"",
+      flagEnd:0,
+      gameOver: false,
     };
   },
   methods: {
-    update() {
+    calcula() {
       let new_matriz = JSON.parse(JSON.stringify(this.grid));
       for (let i = 0; i < this.numeroMatriz; i++) {
         for (let j = 0; j < this.numeroMatriz; j++) {
           let alives = this.vizinhos(this.grid, i, j);
+          this.flagEnd = this.flagEnd + alives
           if (this.grid[i][j] === 1) {
             // vivo
             if (alives < 2 || alives > 3) {
@@ -62,6 +70,10 @@ export default {
           }
         }
       }
+      if (this.flagEnd == 0){
+        this.gameOver = true
+      }
+      this.flagEnd = 0
       this.grid = new_matriz;
       return new_matriz;
     },
@@ -88,23 +100,22 @@ export default {
     },
     reiniciaJogo(){
       this.grid = []
+      this.gameOver = false
     },
     playGame(){
-        return this.grid = formaGrid(parseInt(this.numeroMatriz))
+      let loopAtualizacao = () => {
+        if (this.gameOver == true) {
+          clearInterval(rotina)
+          console.log("paramos")
+        } else {
+          this.calcula()
+          console.log("rodando")
+        }
+      }
+        this.grid = formaGrid(parseInt(this.numeroMatriz))
+        let rotina = setInterval(loopAtualizacao, 500)
       },
-      acabate(){
-        setTimeout(() =>{
-          this.update()
-        }, 100)
-      },
-    },
-  watch:{
-    grid(){
-      console.log("chamando")
-      this.acabate()
-    }
-  },
-};
+  }};
 </script>
 
 <style scoped>
@@ -114,8 +125,8 @@ export default {
   display: flex;
   justify-content: center;
   background-color: #000000;
-  background-image: url("./static/sky.jpg") ;
-  background-size: cover; 
+  background-image: url("./static/sky.jpg");
+  background-size: cover;
 }
 input {
   background: white;
@@ -129,7 +140,7 @@ input {
 p {
   margin: 5%;
   color: white;
-  text-align:center ;
+  text-align: center;
 }
 table td {
   border: 1px solid #eee;
@@ -145,10 +156,11 @@ table td {
   flex-wrap: nowrap;
   justify-content: center;
   min-height: 50vh;
+  margin: 5%;
 }
 
 .dosbotoes {
-  display:flex;
+  display: flex;
   height: 40%;
 }
 
