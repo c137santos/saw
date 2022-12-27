@@ -14,6 +14,7 @@
           <button @click.prevent="playGame">PLAY!!</button>
           <button @click="reiniciaJogo">Reiniciar!!</button>
         </div>
+        <p>Estamos na {{ geracoes }} geração</p>
       </div>
     </div>
     <div class="tabelinha">
@@ -46,8 +47,8 @@ export default {
     return {
       grid: [],
       numeroMatriz:"",
-      flagEnd:0,
       gameOver: false,
+      geracoes: 0,
     };
   },
   methods: {
@@ -56,7 +57,6 @@ export default {
       for (let i = 0; i < this.numeroMatriz; i++) {
         for (let j = 0; j < this.numeroMatriz; j++) {
           let alives = this.vizinhos(this.grid, i, j);
-          this.flagEnd = this.flagEnd + alives
           if (this.grid[i][j] === 1) {
             // vivo
             if (alives < 2 || alives > 3) {
@@ -70,7 +70,7 @@ export default {
           }
         }
       }
-      if (this.flagEnd == 0){
+      if (JSON.stringify(new_matriz) == JSON.stringify(this.grid)){
         this.gameOver = true
       }
       this.flagEnd = 0
@@ -109,6 +109,7 @@ export default {
           console.log("paramos")
         } else {
           this.calcula()
+          this.geracoes ++
           console.log("rodando")
         }
       }
