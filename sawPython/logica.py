@@ -55,20 +55,20 @@ class Game():
 
        
 
-# IMPLEMENTAÇÃO ITERATIVA FUTURA
-#  if __name__ ==  '__main__':
-#     matriz_size = int((input('Qual será o tamaho da Matriz? Se por número quebrado eu vou arrendodar. To logo avisando! Vai : ')))
-#     alives = 101
-#     while alives > 100:
-#         alives = int((input('Quantos percentos de vivos você deseja? 0 - 100. Vai: ')))
-#         if (alives > 100) or (alives < 0):
-#             print("Precisa ser de ZERO a CEM. Para de bagunçar o jogo! Vai: ")
-#             alives = 101
-    
-#     grid= Game(matriz_size, matriz_size, alives)
-#     grid.play_game()
+## IMPLEMENTAÇÃO ITERATIVA FUTURA
+    # if __name__ ==  '__main__':
+    #     matriz_size = int((input('Qual será o tamaho da Matriz? Se por número quebrado eu vou arrendodar. To logo avisando! Vai : ')))
+    #     alives = 101
+    #     while alives > 100:
+    #         alives = int((input('Quantos percentos de vivos você deseja? 0 - 100. Vai: ')))
+    #         if (alives > 100) or (alives < 0):
+    #             print("Precisa ser de ZERO a CEM. Para de bagunçar o jogo! Vai: ")
+    #             alives = 101
+        
+    #     grid= Game(matriz_size, matriz_size, alives)
+    #     grid.play_game()
 
-grid = Game(50, 50, 40)
+    # grid = Game(50, 50, 40)
 
 while True:
     print(grid)
