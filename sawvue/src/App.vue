@@ -2,8 +2,8 @@
   <div>
     <topNavBat></topNavBat>
     <div class="divdoinput">
+      <p>Informe o tamanho da sua matriz - 1 a 99</p>
       <div class="centralizador">
-        <p>Informe o tamanho da sua matriz - 1 a 99</p>
         <input
           type="number"
           v-model="numeroMatriz"
@@ -11,8 +11,8 @@
           onKeyPress="if(this.value.length==2) return false;"
         />
         <div class="dosbotoes">
-          <button @click.prevent="playGame">Play!!</button>
-          <button @click="reiniciaJogo">Reiniciar!!</button>
+          <button v-show="ativarBotaoPlay" @click.prevent="playGame">Play!!</button>
+          <button id="reinicia" @click="reiniciaJogo">Reiniciar!!</button>
         </div>
         <p>Estamos na geração {{ geracoes }}</p>
       </div>
@@ -49,10 +49,12 @@ export default {
       numeroMatriz:"",
       gameOver: false,
       geracoes: 0,
+      ativarBotaoPlay: true
     };
   },
   methods: {
     playGame(){
+    this.ativarBotaoPlay = false
     let loopAtualizacao = () => {
       if (this.gameOver == true) {
         clearInterval(rotina)
@@ -114,15 +116,18 @@ export default {
       this.grid = []
       this.gameOver = false
       this.geracoes = 0
+      this.ativarBotaoPlay = true
     },
   }};
 </script>
 
 <style scoped>
+
 .divdoinput {
   width: 100%;
   height: 20%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   background-color: #000000;
   background-image: url("./static/sky.jpg");
@@ -132,13 +137,14 @@ input {
   background: white;
 }
 .centralizador {
-  width: 25%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-items: center;
+  align-items: center;
 }
 p {
-  margin: 5%;
+  margin: 2%;
   color: white;
   text-align: center;
   font-size: 20px;
@@ -147,33 +153,38 @@ table td {
   border: 1px solid #eee;
   width: 30px;
   height: 30px;
-  background-color: white;
+  background-color: rgb(0, 0, 0);
+}
+table {
+  margin: 2%;
 }
 .pintado {
-  background-color: black;
+  background-color: white;
 }
 .tabelinha {
+  background-image: url("./static/sky.jpg"); 
+  background-size: cover; 
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
   min-height: 50vh;
-  margin: 5%;
 }
 
 .dosbotoes {
   display: flex;
-  height: 40%;
+  height: 50px;
+  width: 215px;
 }
 
 button {
   background: white;
   margin: 5%;
   width: 50%;
-  height: 70%;
-  text-align: center;
-  align-self: center;
   font-size: 18px;
   border-radius: 5px;
   border: 2px solid rgb(82, 78, 78);
+}
+#reinicia{
+  justify-content: flex-end;
 }
 </style>

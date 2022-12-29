@@ -8,7 +8,7 @@
 .centralizadora{
   display: flex;
   flex-direction: row;
-  padding: 2%;
+  padding-top: 5%;
   background-color: #1e1e1e;
   background-image: url("../static/sky.jpg"); 
   background-size: cover; 
