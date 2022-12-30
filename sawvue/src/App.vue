@@ -2,17 +2,18 @@
   <div>
     <topNavBat></topNavBat>
     <div class="divdoinput">
-      <p>Informe o tamanho da sua matriz - 1 a 99</p>
+      <p>Informe o tamanho da sua matriz: 1 a 99</p>
       <div class="centralizador">
         <input
           type="number"
+          min="1"
           v-model="numeroMatriz"
           pattern="/^-?\d+\.?\d*$/"
           onKeyPress="if(this.value.length==2) return false;"
         />
         <div class="dosbotoes">
-          <button v-show="ativarBotaoPlay" @click.prevent="playGame">Play!!</button>
-          <button id="reinicia" @click="reiniciaJogo">Reiniciar!!</button>
+          <button id="reinicia" @click="reiniciaJogo">Reiniciar</button>
+          <button v-if="ativarBotaoPlay" @click.prevent="playGame">Play</button>
         </div>
         <p>Estamos na geração {{ geracoes }}</p>
       </div>
@@ -24,7 +25,10 @@
             v-for="(coluna, c) in line"
             :key="`${r}-${c}-${coluna}`"
             :class="classes(r, c)"
-          ></td>
+            @click="clickUsuario(r, c)"
+          >
+            &nbsp;
+          </td>
         </tr>
       </table>
     </div>
@@ -37,7 +41,6 @@ import { formaGrid } from "./life";
 import topNavBat from "./components/topNavBat.vue";
 import footerBar from "./components/footerBar.vue";
 
-
 export default {
   components: {
     topNavBat,
@@ -46,25 +49,26 @@ export default {
   data() {
     return {
       grid: [],
-      numeroMatriz:"",
+      numeroMatriz: 0,
       gameOver: false,
       geracoes: 0,
-      ativarBotaoPlay: true
+      ativarBotaoPlay: true,
+      rotina: null,
     };
   },
   methods: {
-    playGame(){
-    this.ativarBotaoPlay = false
-    let loopAtualizacao = () => {
-      if (this.gameOver == true) {
-        clearInterval(rotina)
-      } else {
-        this.calculoDaNovaMatriz()
-        this.geracoes ++
-      }
-    }
-      this.grid = formaGrid(parseInt(this.numeroMatriz))
-      let rotina = setInterval(loopAtualizacao, 500) // Esta parte dispara as atualizações da matriz 
+    playGame() {
+      this.ativarBotaoPlay = false;
+      let loopAtualizacao = () => {
+        if (this.gameOver == true) {
+          clearInterval(this.rotina);
+        } else {
+          this.calculoDaNovaMatriz();
+          this.geracoes++;
+        }
+      };
+      this.grid = formaGrid(this.numeroMatriz);
+      this.rotina = setInterval(loopAtualizacao, 500); // Esta parte dispara as atualizações da matriz
     },
     calculoDaNovaMatriz() {
       let new_matriz = JSON.parse(JSON.stringify(this.grid));
@@ -84,14 +88,15 @@ export default {
           }
         }
       }
-      if (JSON.stringify(new_matriz) == JSON.stringify(this.grid)){
-        this.gameOver = true // Flag que desliga o loop de atualização da matriz
+      if (JSON.stringify(new_matriz) == JSON.stringify(this.grid)) {
+        this.gameOver = true; // Flag que desliga o loop de atualização da matriz
       }
-      this.flagEnd = 0
+      this.flagEnd = 0;
       this.grid = new_matriz;
       return new_matriz;
     },
-    vizinhos(grid, x, y) { //recebe a atual matriz, além da posição no eixo x e no eixo y de cada celula analisada
+    vizinhos(grid, x, y) {
+      //recebe a atual matriz, além da posição no eixo x e no eixo y de cada celula analisada
       let vivos = 0;
       for (let linha_x of [-1, 0, 1]) {
         for (let coluna_y of [-1, 0, 1]) {
@@ -112,17 +117,25 @@ export default {
         pintado: this.grid[linha][coluna],
       };
     },
-    reiniciaJogo(){
-      this.grid = []
-      this.gameOver = false
-      this.geracoes = 0
-      this.ativarBotaoPlay = true
+    reiniciaJogo() {
+      this.grid = [];
+      this.gameOver = false;
+      this.geracoes = 0;
+      this.ativarBotaoPlay = true;
     },
-  }};
+    clickUsuario(linha, coluna) {
+      console.log("clicou fora");
+      if (this.rotina) {
+        console.log(this.grid[linha][coluna])
+        this.grid[linha][coluna] = this.grid[linha][coluna] == 0 ? 1 : 0
+        console.log(this.grid[linha][coluna])
+      }
+    },
+  },
+};
 </script>
 
 <style scoped>
-
 .divdoinput {
   width: 100%;
   height: 20%;
@@ -162,8 +175,8 @@ table {
   background-color: white;
 }
 .tabelinha {
-  background-image: url("./static/sky.jpg"); 
-  background-size: cover; 
+  background-image: url("./static/sky.jpg");
+  background-size: cover;
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
@@ -172,19 +185,18 @@ table {
 
 .dosbotoes {
   display: flex;
-  height: 50px;
-  width: 215px;
+  width: 100%;
 }
 
 button {
   background: white;
-  margin: 5%;
-  width: 50%;
+  margin: 2%;
+  width: 30%;
   font-size: 18px;
   border-radius: 5px;
   border: 2px solid rgb(82, 78, 78);
 }
-#reinicia{
+#reinicia {
   justify-content: flex-end;
 }
 </style>
