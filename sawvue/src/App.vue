@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { formaGrid } from "./life";
+import { formaGrid, vizinhos } from "./life";
 import topNavBat from "./components/topNavBat.vue";
 import footerBar from "./components/footerBar.vue";
 
@@ -74,7 +74,7 @@ export default {
       let new_matriz = JSON.parse(JSON.stringify(this.grid));
       for (let i = 0; i < this.numeroMatriz; i++) {
         for (let j = 0; j < this.numeroMatriz; j++) {
-          let alives = this.vizinhos(this.grid, i, j); // função que calcula quantos vivos está ao rodar de cada celula
+          let alives = vizinhos(this.grid, i, j); // função que calcula quantos vivos está ao rodar de cada celula
           if (this.grid[i][j] === 1) {
             // vivo
             if (alives < 2 || alives > 3) {
@@ -91,26 +91,8 @@ export default {
       if (JSON.stringify(new_matriz) == JSON.stringify(this.grid)) {
         this.gameOver = true; // Flag que desliga o loop de atualização da matriz
       }
-      this.flagEnd = 0;
       this.grid = new_matriz;
       return new_matriz;
-    },
-    vizinhos(grid, x, y) {
-      //recebe a atual matriz, além da posição no eixo x e no eixo y de cada celula analisada
-      let vivos = 0;
-      for (let linha_x of [-1, 0, 1]) {
-        for (let coluna_y of [-1, 0, 1]) {
-          if (linha_x == 0 && coluna_y == 0) continue; // posição [0,0] se trata da célula em questão, então não é contabilizada
-
-          const vizinho_x = x + linha_x;
-          const vizinho_y = y + coluna_y;
-
-          if (grid[vizinho_x]?.[vizinho_y]) {
-            vivos += 1;
-          }
-        }
-      }
-      return vivos;
     },
     classes(linha, coluna) {
       return {
@@ -124,11 +106,9 @@ export default {
       this.ativarBotaoPlay = true;
     },
     clickUsuario(linha, coluna) {
-      console.log("clicou fora");
+      console.log("Ainda não funciona como deveria");
       if (this.rotina) {
-        console.log(this.grid[linha][coluna])
         this.grid[linha][coluna] = this.grid[linha][coluna] == 0 ? 1 : 0
-        console.log(this.grid[linha][coluna])
       }
     },
   },
@@ -184,18 +164,22 @@ table {
 }
 
 .dosbotoes {
+  margin:2%;
   display: flex;
-  width: 100%;
+  align-items: center;
+  width: 50%;
+  justify-content: space-around;
 }
 
 button {
   background: white;
   margin: 2%;
-  width: 30%;
+  width: 20%;
   font-size: 18px;
   border-radius: 5px;
   border: 2px solid rgb(82, 78, 78);
 }
+
 #reinicia {
   justify-content: flex-end;
 }
