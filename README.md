@@ -7,9 +7,9 @@ Se você deseja ver o deploy com Vue do jogo da vida. [Apenas venha nesse link](
 Se você deseja ver o backend em Python. Melhor clonar o projeto e rodar pelo terminal.
 Para rodar no terminal, vá até a pasta sawPython pelo terminal e use o comando:
 
-ˋˋˋ
+```
 bash logica.py
-ˋˋˋ
+```
 
 Game of Life foi desenvolvido por John Conway em 1970, concretizou a descrição da máquina de Turing Universal(máquina capaz de construir cópias de si) com regras simples. 
 O mais importante desse projeto foi que ele inaugurou o campo da matemática denominada de autômatos celulares.
