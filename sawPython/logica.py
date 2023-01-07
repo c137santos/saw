@@ -30,19 +30,19 @@ class Game():
         self.celulas = new_grid
 
     def __into_to_coord(self, pos):
-        x = floor(pos/self.colunas)
-        y = pos % self.colunas
+        x = pos % self.colunas
+        y = floor(pos/self.colunas)
         return x, y
 
     def __alive_nbs(self, pos):
         par_ordenado = self.__into_to_coord(pos)
         count = 0
         vizinhos = []
-        for linha in range(par_ordenado[0]-1, par_ordenado[0]+2):
-            for coluna in range(par_ordenado[1]-1, par_ordenado[1]+2):
+        for linha in range(par_ordenado[1]-1, par_ordenado[1]+2): 
+            for coluna in range(par_ordenado[0]-1, par_ordenado[0]+2):
                 if linha < 0 or linha >= self.linhas or coluna >= self.colunas or coluna < 0:
                     continue
-                if (linha, coluna) == par_ordenado:
+                if (coluna, linha) == par_ordenado:
                     continue
                 vizinhos.append((linha, coluna))
         r = []
