@@ -6,14 +6,14 @@ class Game():
     def __init__(self, linhas, colunas, vivos) -> None:
         self.linhas = linhas
         self.colunas = colunas
-        self.celulas = [False if random() > (vivos/100) else True for _ in range(linhas * colunas)] #O conjunto dessas células forma a grande lista! Colocando o random como o construtor você joga menos de 10% dos vivos no meio. 
+        self.celulas = [False if random() > (vivos/100) else True for _ in range(linhas * colunas)] 
     
     def __repr__(self) -> str:
-        gridizinho = '' #string que vai ser printada ao final
-        for x in range(self.linhas): #montando o grid, para cada linha
-            for y in range(self.colunas): # percorro as colunas
-                gridizinho += '#' if self.celulas[x * self.colunas + y] else '.' # é atribuido a cada vez que celular for verdadeiro (if self.celulas[posição calculada ai]). Faço isso para cada células das colunas, verificando o valor da celula pelo par ordenado x,y. Onde x é o numero atual de linhas, multiplicado pelo numero de colunas que temos, somado a atual coluna que se esta (y). Isso se justifica porque estamos trabalhando com uma lista continua.
-                gridizinho +=' ' # isso é śo um espaço
+        gridizinho = ''
+        for y in range(self.linhas):
+            for x in range(self.colunas): 
+                gridizinho += '#' if self.celulas[y * self.colunas + x] else '.' 
+                gridizinho +=' ' 
             gridizinho +='\n'
         return gridizinho
 
@@ -56,14 +56,22 @@ class Game():
        
 
 if __name__ ==  '__main__':
-    matriz_size = int((input('Qual será o tamaho da Matriz? Se por número quebrado eu vou arrendodar. To logo avisando! Sugestão 0 - 100: ')))
+    while True:
+        try:
+            matriz_size = int((input('Qual será o tamaho da Matriz? Se por número quebrado eu vou arrendodar. To logo avisando! Sugestão 0 - 100: ')))
+            break
+        except:
+            print("Vamos lá, você não está querendo colaborar. É UM NÚMERO")
     alives = 0
     while True:
-        alives = int((input('Quantos percentos de vivos você deseja? 0 - 100. Vai: ')))
-        if (alives > 100) or (alives < 0):
-            print("Precisa ser de ZERO a CEM. Para de bagunçar o jogo! Vai: ")
-        else:
-            break
+        try:
+            alives = int((input('Quantos percentos de vivos você deseja? 0 - 100. Vai: ')))
+            if (alives > 100) or (alives < 0):
+                print("Precisa ser de ZERO a CEM. Para de bagunçar o jogo! Vai: ")
+            else:
+                break
+        except:
+            print("Vamos lá, você não está querendo colaborar. É UM NÚMERO")
     grid = Game(matriz_size, matriz_size, alives)
     while True:
         print(grid)
